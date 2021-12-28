@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+    <label for="city">Choose a city:</label>
+    <select name="city" id="city">
+        <option value="karachi">Karachi</option>
+        <option value="lahore">Lahore</option>
+        <option value="islamabad">Islamabad</option>
+        <option value="multan">Multan</option>
+        <option value="calgary">Calgary</option>
+        <option value="sydney">Sydney</option>
+        <option value="brasilia">Brasilia</option>
+        <option value="amazonas">Amazonas</option>
+    </select>
+
+
+
+    <button onclick="greet()">Get weather</button>
+    <h1 id='messege'></h1> 
+    Temperature<h1 id='tempp'></h1>
+    Max. Temperature<h1 id='maxtempp'></h1>
+    Min. Temperature<h1 id='mintempp'></h1>
+    Feels like<h1 id='feelslike'></h1>
+    <script>
+        function greet() {
+
+            var cityName2 = document.getElementById('city').value
+            console.log(cityName2);
+
+            axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${cityName2}&appid=8ef6f80e7b0d49634cdaf3c6c734ddab&units=metric`)
+                .then(function (response) {
+                    let result = response.data
+                    console.log("result :", result);
+
+                    let tempp = result.main.temp;
+                    let mintempp = result.main.temp_min;
+                    let maxtempp = result.main.temp_max;
+                    //let maxtempp = result.main.temp_max;
+                    let feelslike = result.main.feels_like;
+
+                    document.getElementById('tempp').innerText = tempp
+                    document.getElementById('maxtempp').innerText = maxtempp
+                    document.getElementById('mintempp').innerText = mintempp
+                    document.getElementById('feelslike').innerText = feelslike
+
+
+                    if (tempp < 0) {
+                        messege = 'Dont go out its too cold outside'
+                        document.getElementById('messege').innerText = messege
+
+                    } else if (tempp >= 0 && tempp < 25){
+                        messege = 'Carry jacket if go outside'
+                        document.getElementById('messege').innerText = messege
+                    
+                    } else if (tempp >= 25 ){
+                        messege = 'No need to carry jacket if go outside'
+                        document.getElementById('messege').innerText = messege
+                    }else if (tempp >= 30 ){
+                        messege = 'Its too hot dont go outside'
+                        document.getElementById('messege').innerText = messege
+                    }
+                    
+
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+            //console.log("result :", tempp);
+
+
+        }
+
+
+    </script>
+</body>
+
+</html>
